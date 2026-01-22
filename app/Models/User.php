@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +19,9 @@ class User extends Authenticatable
         'avatar',
         'level',
         'total_xp',
+        'gems',
+        'streak_freezes_available',
+        'last_streak_freeze_used',
         'current_streak',
         'longest_streak',
         'last_activity_date',
@@ -36,7 +40,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'last_activity_date' => 'date',
+            'last_streak_freeze_used' => 'date',
             'notification_preferences' => 'array',
+            'gems' => 'integer',
+            'streak_freezes_available' => 'integer',
         ];
     }
 
@@ -88,6 +95,49 @@ class User extends Authenticatable
     public function streaks(): HasMany
     {
         return $this->hasMany(Streak::class);
+    }
+
+    public function visionBoards(): HasMany
+    {
+        return $this->hasMany(VisionBoard::class);
+    }
+
+    public function primaryVisionBoard(): ?VisionBoard
+    {
+        return $this->visionBoards()->primary()->first();
+    }
+
+    public function reflections(): HasMany
+    {
+        return $this->hasMany(Reflection::class);
+    }
+
+    public function streakFreezes(): HasMany
+    {
+        return $this->hasMany(StreakFreeze::class);
+    }
+
+    public function rewards(): BelongsToMany
+    {
+        return $this->belongsToMany(Reward::class, 'user_rewards')
+            ->withPivot(['quantity', 'purchased_at', 'used_at', 'expires_at', 'is_active', 'metadata'])
+            ->withTimestamps();
+    }
+
+    public function userRewards(): HasMany
+    {
+        return $this->hasMany(UserReward::class);
+    }
+
+    public function favoriteQuotes(): BelongsToMany
+    {
+        return $this->belongsToMany(Quote::class, 'quote_user')
+            ->withTimestamps();
+    }
+
+    public function dailyQuotes(): HasMany
+    {
+        return $this->hasMany(DailyQuote::class);
     }
 
     public function addXp(int $amount, string $sourceType, ?int $sourceId = null, ?string $description = null): void
@@ -181,5 +231,104 @@ class User extends Authenticatable
         }
 
         return max(0, $nextLevel->xp_required - $this->total_xp);
+    }
+
+    public function addGems(int $amount): void
+    {
+        $this->increment('gems', $amount);
+    }
+
+    public function spendGems(int $amount): bool
+    {
+        if ($this->gems < $amount) {
+            return false;
+        }
+
+        $this->decrement('gems', $amount);
+        return true;
+    }
+
+    public function purchaseStreakFreeze(): bool
+    {
+        $reward = Reward::where('type', 'streak_freeze')->active()->first();
+
+        if (!$reward || $this->gems < $reward->cost_gems) {
+            return false;
+        }
+
+        if (!$this->spendGems($reward->cost_gems)) {
+            return false;
+        }
+
+        $this->increment('streak_freezes_available');
+
+        $this->userRewards()->create([
+            'reward_id' => $reward->id,
+            'quantity' => 1,
+            'purchased_at' => now(),
+        ]);
+
+        return true;
+    }
+
+    public function useStreakFreeze(?string $date = null): bool
+    {
+        if ($this->streak_freezes_available <= 0) {
+            return false;
+        }
+
+        $freezeDate = $date ? \Carbon\Carbon::parse($date) : today();
+
+        // Check if already used for this date
+        if ($this->streakFreezes()->forDate($freezeDate)->exists()) {
+            return false;
+        }
+
+        $this->streakFreezes()->create([
+            'freeze_date' => $freezeDate,
+            'type' => 'manual',
+            'is_used' => true,
+        ]);
+
+        $this->decrement('streak_freezes_available');
+        $this->update(['last_streak_freeze_used' => $freezeDate]);
+
+        return true;
+    }
+
+    public function hasStreakFreezeForDate($date): bool
+    {
+        return $this->streakFreezes()->forDate($date)->exists();
+    }
+
+    public function canAfford(Reward $reward): bool
+    {
+        if ($reward->cost_gems > 0 && $this->gems < $reward->cost_gems) {
+            return false;
+        }
+
+        if ($reward->cost_xp > 0 && $this->total_xp < $reward->cost_xp) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function purchaseReward(Reward $reward): ?UserReward
+    {
+        if (!$this->canAfford($reward)) {
+            return null;
+        }
+
+        if ($reward->cost_gems > 0) {
+            $this->spendGems($reward->cost_gems);
+        }
+
+        return $this->userRewards()->create([
+            'reward_id' => $reward->id,
+            'quantity' => 1,
+            'purchased_at' => now(),
+            'metadata' => $reward->metadata,
+        ]);
     }
 }

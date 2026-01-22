@@ -8,6 +8,12 @@ use App\Http\Controllers\DreamController;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\PlannerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VisionBoardController;
+use App\Http\Controllers\ReflectionController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\StreakFreezeController;
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -84,6 +90,57 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Achievements
     Route::get('/achievements', [AchievementController::class, 'index'])->name('achievements.index');
+
+    // Vision Board
+    Route::prefix('vision-board')->name('vision-board.')->group(function () {
+        Route::get('/', [VisionBoardController::class, 'index'])->name('index');
+        Route::get('/create', [VisionBoardController::class, 'create'])->name('create');
+        Route::post('/', [VisionBoardController::class, 'store'])->name('store');
+        Route::get('/{visionBoard}', [VisionBoardController::class, 'show'])->name('show');
+        Route::get('/{visionBoard}/edit', [VisionBoardController::class, 'edit'])->name('edit');
+        Route::put('/{visionBoard}', [VisionBoardController::class, 'update'])->name('update');
+        Route::delete('/{visionBoard}', [VisionBoardController::class, 'destroy'])->name('destroy');
+        Route::post('/{visionBoard}/items', [VisionBoardController::class, 'addItem'])->name('items.store');
+        Route::put('/items/{item}', [VisionBoardController::class, 'updateItem'])->name('items.update');
+        Route::delete('/items/{item}', [VisionBoardController::class, 'deleteItem'])->name('items.destroy');
+    });
+
+    // Reflections / Gratitude Journal
+    Route::prefix('reflections')->name('reflections.')->group(function () {
+        Route::get('/', [ReflectionController::class, 'index'])->name('index');
+        Route::get('/create', [ReflectionController::class, 'create'])->name('create');
+        Route::post('/', [ReflectionController::class, 'store'])->name('store');
+        Route::get('/{reflection}', [ReflectionController::class, 'show'])->name('show');
+        Route::get('/{reflection}/edit', [ReflectionController::class, 'edit'])->name('edit');
+        Route::put('/{reflection}', [ReflectionController::class, 'update'])->name('update');
+        Route::delete('/{reflection}', [ReflectionController::class, 'destroy'])->name('destroy');
+    });
+
+    // Rewards Shop
+    Route::prefix('rewards')->name('rewards.')->group(function () {
+        Route::get('/', [RewardController::class, 'index'])->name('index');
+        Route::post('/{reward}/purchase', [RewardController::class, 'purchase'])->name('purchase');
+        Route::post('/use/{userReward}', [RewardController::class, 'use'])->name('use');
+    });
+
+    // Streak Freeze
+    Route::prefix('streak-freeze')->name('streak-freeze.')->group(function () {
+        Route::get('/', [StreakFreezeController::class, 'index'])->name('index');
+        Route::post('/use', [StreakFreezeController::class, 'use'])->name('use');
+        Route::post('/purchase', [StreakFreezeController::class, 'purchase'])->name('purchase');
+    });
+
+    // Quotes
+    Route::prefix('quotes')->name('quotes.')->group(function () {
+        Route::get('/', [QuoteController::class, 'index'])->name('index');
+        Route::get('/daily', [QuoteController::class, 'daily'])->name('daily');
+        Route::get('/random', [QuoteController::class, 'random'])->name('random');
+        Route::get('/favorites', [QuoteController::class, 'favorites'])->name('favorites');
+        Route::post('/{quote}/favorite', [QuoteController::class, 'toggleFavorite'])->name('favorite');
+    });
+
+    // Statistics / Analytics
+    Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -34,9 +34,33 @@
             Habits
         </x-nav-link>
 
+        <x-nav-link href="{{ route('vision-board.index') }}" :active="request()->routeIs('vision-board.*')" icon="🎨">
+            Vision Board
+        </x-nav-link>
+
+        <x-nav-link href="{{ route('reflections.index') }}" :active="request()->routeIs('reflections.*')" icon="📝">
+            Reflections
+        </x-nav-link>
+
+        <x-nav-link href="{{ route('quotes.index') }}" :active="request()->routeIs('quotes.*')" icon="💬">
+            Quotes
+        </x-nav-link>
+
         <div class="pt-4 mt-4 border-t-2 border-duo-gray-100">
             <x-nav-link href="{{ route('achievements.index') }}" :active="request()->routeIs('achievements.*')" icon="🏆">
                 Achievements
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('stats.index') }}" :active="request()->routeIs('stats.*')" icon="📊">
+                Statistics
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('rewards.index') }}" :active="request()->routeIs('rewards.*')" icon="🎁">
+                Shop
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('streak-freeze.index') }}" :active="request()->routeIs('streak-freeze.*')" icon="🧊">
+                Streak Freeze
             </x-nav-link>
 
             <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.*')" icon="👤">
@@ -107,9 +131,33 @@
             Habits
         </x-nav-link>
 
+        <x-nav-link href="{{ route('vision-board.index') }}" :active="request()->routeIs('vision-board.*')" icon="🎨">
+            Vision Board
+        </x-nav-link>
+
+        <x-nav-link href="{{ route('reflections.index') }}" :active="request()->routeIs('reflections.*')" icon="📝">
+            Reflections
+        </x-nav-link>
+
+        <x-nav-link href="{{ route('quotes.index') }}" :active="request()->routeIs('quotes.*')" icon="💬">
+            Quotes
+        </x-nav-link>
+
         <div class="pt-4 mt-4 border-t-2 border-duo-gray-100">
             <x-nav-link href="{{ route('achievements.index') }}" :active="request()->routeIs('achievements.*')" icon="🏆">
                 Achievements
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('stats.index') }}" :active="request()->routeIs('stats.*')" icon="📊">
+                Statistics
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('rewards.index') }}" :active="request()->routeIs('rewards.*')" icon="🎁">
+                Shop
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('streak-freeze.index') }}" :active="request()->routeIs('streak-freeze.*')" icon="🧊">
+                Streak Freeze
             </x-nav-link>
 
             <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.*')" icon="👤">

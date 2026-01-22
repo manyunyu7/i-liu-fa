@@ -1,6 +1,6 @@
 # DuoManifest - Personal Growth App
 
-A Duolingo-inspired web application for personal growth, featuring affirmations, bucket lists, dreams, daily planning, and habit tracking with gamification.
+A Duolingo-inspired web application for personal growth, featuring affirmations, bucket lists, dreams, daily planning, habit tracking, vision boards, reflections, and more - all with gamification.
 
 ## Tech Stack
 
@@ -28,6 +28,12 @@ resources/views/
 ├── habits/                 # Habit views
 ├── layouts/                # App layouts
 ├── planner/                # Planner views
+├── quotes/                 # Motivational quotes views
+├── reflections/            # Daily reflection views
+├── rewards/                # Shop/rewards views
+├── stats/                  # Statistics/analytics views
+├── streak-freezes/         # Streak freeze views
+├── vision-board/           # Vision board views
 └── welcome.blade.php       # Landing page
 
 database/
@@ -39,7 +45,7 @@ docs/planning/              # Project documentation
 └── *.md                    # Planning docs
 
 tests/
-├── Feature/                # Feature tests
+├── Feature/                # Feature tests (200+ tests)
 └── Unit/                   # Unit tests
 ```
 
@@ -51,12 +57,18 @@ tests/
 3. **Dreams** - Dream manifestation with journaling
 4. **Planner** - Daily task management (intentions, goals, habits, tasks)
 5. **Habits** - Daily/weekly habit tracking with streaks
+6. **Vision Board** - Visual dream boards with images, text, quotes, and goals
+7. **Reflections** - Daily gratitude journal with morning/evening reflections and mood tracking
+8. **Quotes** - Motivational quote library with daily quotes and favorites
+9. **Statistics** - Analytics dashboard with activity tracking and XP breakdown
 
 ### Gamification
 - XP system for completing activities
 - 10 levels (Dreamer → Legend)
-- Streak tracking
+- Streak tracking with streak freeze protection
 - 20+ achievements
+- Gems currency for rewards shop
+- Streak freeze system
 
 ## Development Commands
 
@@ -85,7 +97,7 @@ npm run build
 ## Database Schema
 
 Key tables:
-- `users` - Extended with gamification fields (level, total_xp, current_streak)
+- `users` - Extended with gamification fields (level, total_xp, current_streak, gems, streak_freezes_available)
 - `affirmations`, `affirmation_categories`, `affirmation_sessions`
 - `bucket_list_items`, `bucket_list_categories`, `bucket_list_milestones`
 - `dreams`, `dream_categories`, `dream_journal_entries`
@@ -93,6 +105,10 @@ Key tables:
 - `habits`, `habit_logs`
 - `achievements`, `user_achievements`
 - `levels`, `streaks`, `xp_transactions`
+- `vision_boards`, `vision_board_items`
+- `reflections`
+- `quotes`, `quote_user`, `daily_quotes`
+- `rewards`, `user_rewards`, `streak_freezes`
 
 ## UI Design
 
@@ -115,18 +131,26 @@ Duolingo-inspired color palette in `tailwind.config.js`:
 | `/dreams` | Dreams module |
 | `/planner` | Daily planner |
 | `/habits` | Habit tracker |
+| `/vision-board` | Vision boards |
+| `/reflections` | Daily reflections/gratitude |
+| `/quotes` | Motivational quotes |
 | `/achievements` | Achievements page |
+| `/rewards` | Shop/rewards |
+| `/streak-freeze` | Streak freeze management |
+| `/stats` | Statistics & analytics |
 
 ## Testing
 
 Tests are located in `tests/` directory:
-- Feature tests for all controllers
+- 200+ Feature tests for all controllers
 - Unit tests for models (User, Habit, BucketListItem, Dream, PlannerTask, Achievement)
 
 Run specific test groups:
 ```bash
 php artisan test --filter=HabitTest
 php artisan test --filter=UserTest
+php artisan test --filter=VisionBoardTest
+php artisan test --filter=ReflectionTest
 ```
 
 ## Code Style
@@ -149,3 +173,13 @@ Generate app key:
 ```bash
 php artisan key:generate
 ```
+
+## Recent Updates (January 2026)
+
+- Added Vision Board feature with customizable themes and item types
+- Added Daily Reflections/Gratitude Journal with mood tracking
+- Implemented Rewards Shop with gems currency
+- Added Streak Freeze system to protect streaks
+- Created Motivational Quotes library with daily quotes
+- Built comprehensive Statistics/Analytics dashboard
+- 200+ passing tests covering all features
