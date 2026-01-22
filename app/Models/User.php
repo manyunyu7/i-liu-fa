@@ -142,6 +142,11 @@ class User extends Authenticatable
         return $this->hasMany(DailyQuote::class);
     }
 
+    public function weeklyGoals(): HasMany
+    {
+        return $this->hasMany(WeeklyGoal::class);
+    }
+
     public function addXp(int $amount, string $sourceType, ?int $sourceId = null, ?string $description = null): void
     {
         $this->xpTransactions()->create([

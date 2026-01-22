@@ -42,6 +42,10 @@
             Reflections
         </x-nav-link>
 
+        <x-nav-link href="{{ route('weekly-goals.index') }}" :active="request()->routeIs('weekly-goals.*')" icon="📆">
+            Weekly Goals
+        </x-nav-link>
+
         <x-nav-link href="{{ route('quotes.index') }}" :active="request()->routeIs('quotes.*')" icon="💬">
             Quotes
         </x-nav-link>
@@ -141,6 +145,10 @@
 
         <x-nav-link href="{{ route('reflections.index') }}" :active="request()->routeIs('reflections.*')" icon="📝">
             Reflections
+        </x-nav-link>
+
+        <x-nav-link href="{{ route('weekly-goals.index') }}" :active="request()->routeIs('weekly-goals.*')" icon="📆">
+            Weekly Goals
         </x-nav-link>
 
         <x-nav-link href="{{ route('quotes.index') }}" :active="request()->routeIs('quotes.*')" icon="💬">

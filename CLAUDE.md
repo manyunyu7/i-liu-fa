@@ -45,7 +45,7 @@ docs/planning/              # Project documentation
 └── *.md                    # Planning docs
 
 tests/
-├── Feature/                # Feature tests (216+ tests)
+├── Feature/                # Feature tests (229+ tests)
 └── Unit/                   # Unit tests
 ```
 
@@ -61,6 +61,7 @@ tests/
 7. **Reflections** - Daily gratitude journal with morning/evening reflections and mood tracking
 8. **Quotes** - Motivational quote library with daily quotes and favorites
 9. **Statistics** - Analytics dashboard with activity tracking and XP breakdown
+10. **Weekly Goals** - Weekly goal tracking with progress and categories
 
 ### Gamification
 - XP system for completing activities
@@ -109,6 +110,7 @@ Key tables:
 - `reflections`
 - `quotes`, `quote_user`, `daily_quotes`
 - `rewards`, `user_rewards`, `streak_freezes`
+- `weekly_goals`
 
 ## UI Design
 
@@ -139,12 +141,13 @@ Duolingo-inspired color palette in `tailwind.config.js`:
 | `/streak-freeze` | Streak freeze management |
 | `/stats` | Statistics & analytics |
 | `/preferences` | Settings (sound, theme, notifications) |
+| `/weekly-goals` | Weekly goal tracking |
 | `/share/achievement/{id}/{userId}` | Public achievement share cards |
 
 ## Testing
 
 Tests are located in `tests/` directory:
-- 216+ Feature tests for all controllers
+- 229+ Feature tests for all controllers
 - Unit tests for models (User, Habit, BucketListItem, Dream, PlannerTask, Achievement)
 
 Run specific test groups:
@@ -188,4 +191,5 @@ php artisan key:generate
 - Added Sound Effects & Haptic Feedback system (Web Audio API)
 - Added User Preferences/Settings page (sound, haptics, theme, notifications)
 - Implemented Social Sharing for achievements with share cards
-- 216+ passing tests covering all features
+- Added Weekly Goals feature with progress tracking
+- 229+ passing tests covering all features

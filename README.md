@@ -14,6 +14,7 @@ A Duolingo-inspired personal growth web application built with Laravel 12. Track
 - **Vision Board** - Visual dream boards with images, text, quotes, and goals
 - **Reflections** - Daily gratitude journal with mood tracking
 - **Motivational Quotes** - Daily quotes with favorites
+- **Weekly Goals** - Set and track goals by category with progress
 
 ### Gamification
 
@@ -80,7 +81,7 @@ php artisan test
 php artisan test --filter=HabitTest
 ```
 
-The project includes 216+ tests covering all features.
+The project includes 229+ tests covering all features.
 
 ## Screenshots
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\StreakFreezeController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\WeeklyGoalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -145,6 +146,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/random', [QuoteController::class, 'random'])->name('random');
         Route::get('/favorites', [QuoteController::class, 'favorites'])->name('favorites');
         Route::post('/{quote}/favorite', [QuoteController::class, 'toggleFavorite'])->name('favorite');
+    });
+
+    // Weekly Goals
+    Route::prefix('weekly-goals')->name('weekly-goals.')->group(function () {
+        Route::get('/', [WeeklyGoalController::class, 'index'])->name('index');
+        Route::get('/create', [WeeklyGoalController::class, 'create'])->name('create');
+        Route::post('/', [WeeklyGoalController::class, 'store'])->name('store');
+        Route::get('/{weeklyGoal}/edit', [WeeklyGoalController::class, 'edit'])->name('edit');
+        Route::put('/{weeklyGoal}', [WeeklyGoalController::class, 'update'])->name('update');
+        Route::delete('/{weeklyGoal}', [WeeklyGoalController::class, 'destroy'])->name('destroy');
+        Route::post('/{weeklyGoal}/increment', [WeeklyGoalController::class, 'incrementProgress'])->name('increment');
+        Route::post('/{weeklyGoal}/decrement', [WeeklyGoalController::class, 'decrementProgress'])->name('decrement');
     });
 
     // Statistics / Analytics
