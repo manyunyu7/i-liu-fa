@@ -45,7 +45,7 @@ docs/planning/              # Project documentation
 └── *.md                    # Planning docs
 
 tests/
-├── Feature/                # Feature tests (200+ tests)
+├── Feature/                # Feature tests (216+ tests)
 └── Unit/                   # Unit tests
 ```
 
@@ -138,11 +138,13 @@ Duolingo-inspired color palette in `tailwind.config.js`:
 | `/rewards` | Shop/rewards |
 | `/streak-freeze` | Streak freeze management |
 | `/stats` | Statistics & analytics |
+| `/preferences` | Settings (sound, theme, notifications) |
+| `/share/achievement/{id}/{userId}` | Public achievement share cards |
 
 ## Testing
 
 Tests are located in `tests/` directory:
-- 200+ Feature tests for all controllers
+- 216+ Feature tests for all controllers
 - Unit tests for models (User, Habit, BucketListItem, Dream, PlannerTask, Achievement)
 
 Run specific test groups:
@@ -182,4 +184,8 @@ php artisan key:generate
 - Added Streak Freeze system to protect streaks
 - Created Motivational Quotes library with daily quotes
 - Built comprehensive Statistics/Analytics dashboard
-- 200+ passing tests covering all features
+- Enhanced Beads progress tracker with animations and visual effects
+- Added Sound Effects & Haptic Feedback system (Web Audio API)
+- Added User Preferences/Settings page (sound, haptics, theme, notifications)
+- Implemented Social Sharing for achievements with share cards
+- 216+ passing tests covering all features

@@ -66,6 +66,10 @@
             <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.*')" icon="👤">
                 Profile
             </x-nav-link>
+
+            <x-nav-link href="{{ route('preferences.index') }}" :active="request()->routeIs('preferences.*')" icon="⚙️">
+                Settings
+            </x-nav-link>
         </div>
     </nav>
 
@@ -162,6 +166,10 @@
 
             <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.*')" icon="👤">
                 Profile
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('preferences.index') }}" :active="request()->routeIs('preferences.*')" icon="⚙️">
+                Settings
             </x-nav-link>
         </div>
     </nav>

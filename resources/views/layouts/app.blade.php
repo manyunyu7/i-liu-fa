@@ -68,6 +68,9 @@
         </div>
     @endif
 
+    {{-- Sound Effects Component --}}
+    <x-sound-effects />
+
     @stack('scripts')
 </body>
 </html>

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'last_activity_date',
         'timezone',
         'notification_preferences',
+        'preferences',
     ];
 
     protected $hidden = [
@@ -42,6 +43,7 @@ class User extends Authenticatable
             'last_activity_date' => 'date',
             'last_streak_freeze_used' => 'date',
             'notification_preferences' => 'array',
+            'preferences' => 'array',
             'gems' => 'integer',
             'streak_freezes_available' => 'integer',
         ];

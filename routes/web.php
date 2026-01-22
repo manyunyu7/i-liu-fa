@@ -14,6 +14,7 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\StreakFreezeController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\PreferencesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,7 +22,10 @@ Route::get('/', function () {
         return redirect()->route('dashboard');
     }
     return view('welcome');
-});
+})->name('welcome');
+
+// Public share routes (no auth required)
+Route::get('/share/achievement/{achievement}/{userId}', [AchievementController::class, 'shareCard'])->name('achievements.share-card');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
@@ -89,7 +93,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Achievements
-    Route::get('/achievements', [AchievementController::class, 'index'])->name('achievements.index');
+    Route::prefix('achievements')->name('achievements.')->group(function () {
+        Route::get('/', [AchievementController::class, 'index'])->name('index');
+        Route::get('/{achievement}', [AchievementController::class, 'show'])->name('show');
+        Route::get('/{achievement}/share', [AchievementController::class, 'share'])->name('share');
+    });
 
     // Vision Board
     Route::prefix('vision-board')->name('vision-board.')->group(function () {
@@ -141,6 +149,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Statistics / Analytics
     Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
+
+    // Preferences / Settings
+    Route::prefix('preferences')->name('preferences.')->group(function () {
+        Route::get('/', [PreferencesController::class, 'index'])->name('index');
+        Route::post('/', [PreferencesController::class, 'update'])->name('update');
+    });
+
+    // API endpoint for preferences (AJAX)
+    Route::post('/api/preferences', [PreferencesController::class, 'api'])->name('api.preferences');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
