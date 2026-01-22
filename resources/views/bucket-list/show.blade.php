@@ -94,7 +94,7 @@
             </x-card>
         @endif
 
-        <!-- Milestones -->
+        <!-- Milestones with Beads Journey -->
         <x-card class="mb-6">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-bold text-duo-gray-500">Milestones</h2>
@@ -105,9 +105,19 @@
                 @endif
             </div>
 
+            {{-- Beads Progress Bar --}}
             @if($item->milestones->count() > 0)
+                <div class="mb-6">
+                    <x-beads-progress
+                        :total="$item->milestones->count()"
+                        :completed="$item->milestones->where('is_completed', true)->count()"
+                        size="lg"
+                        color="green"
+                    />
+                </div>
+
                 <div class="space-y-2">
-                    @foreach($item->milestones as $milestone)
+                    @foreach($item->milestones as $index => $milestone)
                         <form action="{{ route('bucket-list.milestones.toggle', $milestone) }}" method="POST">
                             @csrf
                             <button type="submit" class="w-full flex items-center space-x-3 p-3 rounded-duo hover:bg-duo-gray-50 transition-colors text-left">

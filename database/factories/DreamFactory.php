@@ -12,14 +12,12 @@ class DreamFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'category_id' => DreamCategory::factory(),
+            'dream_category_id' => DreamCategory::factory(),
             'title' => fake()->sentence(4),
             'description' => fake()->paragraph(),
-            'visualization' => fake()->optional()->paragraph(),
-            'target_date' => fake()->optional()->dateTimeBetween('now', '+5 years'),
-            'manifested_at' => null,
-            'priority' => fake()->randomElement(['low', 'medium', 'high']),
-            'status' => 'active',
+            'affirmation' => fake()->optional()->sentence(),
+            'manifestation_date' => null,
+            'status' => 'dreaming',
             'xp_reward' => fake()->randomElement([100, 200, 300, 500]),
         ];
     }
@@ -27,15 +25,15 @@ class DreamFactory extends Factory
     public function manifested(): static
     {
         return $this->state(fn (array $attributes) => [
-            'manifested_at' => now(),
+            'manifestation_date' => now(),
             'status' => 'manifested',
         ]);
     }
 
-    public function paused(): static
+    public function manifesting(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => 'paused',
+            'status' => 'manifesting',
         ]);
     }
 }

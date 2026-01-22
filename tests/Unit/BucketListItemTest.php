@@ -30,7 +30,7 @@ class BucketListItemTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'completed_at' => null,
         ]);
 
@@ -44,7 +44,7 @@ class BucketListItemTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'xp_reward' => 100,
         ]);
 
@@ -59,7 +59,7 @@ class BucketListItemTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'progress' => 0,
         ]);
 
@@ -96,7 +96,7 @@ class BucketListItemTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         BucketListMilestone::create([
@@ -120,7 +120,7 @@ class BucketListItemTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'progress' => 50,
         ]);
 

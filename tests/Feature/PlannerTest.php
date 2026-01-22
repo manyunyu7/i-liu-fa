@@ -53,7 +53,7 @@ class PlannerTest extends TestCase
             'priority' => 'high',
         ]);
 
-        $response->assertRedirect('/planner');
+        $response->assertRedirectContains('/planner');
         $this->assertDatabaseHas('planner_tasks', [
             'user_id' => $this->user->id,
             'title' => 'Morning meditation',

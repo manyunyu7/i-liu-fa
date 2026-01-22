@@ -12,15 +12,14 @@ class BucketListItemFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'category_id' => BucketListCategory::factory(),
+            'bucket_list_category_id' => BucketListCategory::factory(),
             'title' => fake()->sentence(4),
             'description' => fake()->paragraph(),
             'priority' => fake()->randomElement(['low', 'medium', 'high']),
+            'status' => 'pending',
             'target_date' => fake()->optional()->dateTimeBetween('now', '+2 years'),
             'completed_at' => null,
             'progress' => 0,
-            'notes' => fake()->optional()->paragraph(),
-            'is_public' => false,
             'xp_reward' => fake()->randomElement([50, 100, 150, 200]),
         ];
     }
@@ -30,6 +29,7 @@ class BucketListItemFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'completed_at' => now(),
             'progress' => 100,
+            'status' => 'completed',
         ]);
     }
 

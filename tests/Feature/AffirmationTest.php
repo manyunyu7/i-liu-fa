@@ -25,6 +25,13 @@ class AffirmationTest extends TestCase
         $this->category = AffirmationCategory::factory()->create();
     }
 
+    protected function createAffirmation(array $attributes = []): \App\Models\Affirmation
+    {
+        return Affirmation::factory()->create(array_merge([
+            'affirmation_category_id' => $this->category->id,
+        ], $attributes));
+    }
+
     public function test_guest_cannot_access_affirmations(): void
     {
         $response = $this->get('/affirmations');
@@ -76,7 +83,7 @@ class AffirmationTest extends TestCase
     {
         $affirmation = Affirmation::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'affirmation_category_id' => $this->category->id,
             'is_favorite' => false,
         ]);
 
@@ -89,7 +96,7 @@ class AffirmationTest extends TestCase
     public function test_user_can_practice_affirmations(): void
     {
         Affirmation::factory()->create([
-            'category_id' => $this->category->id,
+            'affirmation_category_id' => $this->category->id,
             'is_system' => true,
         ]);
 
@@ -101,9 +108,8 @@ class AffirmationTest extends TestCase
     public function test_user_can_complete_affirmation_session(): void
     {
         $affirmation = Affirmation::factory()->create([
-            'category_id' => $this->category->id,
+            'affirmation_category_id' => $this->category->id,
             'is_system' => true,
-            'xp_value' => 10,
         ]);
 
         $response = $this->actingAs($this->user)->post('/affirmations/complete-session', [
@@ -121,7 +127,7 @@ class AffirmationTest extends TestCase
     {
         $affirmation = Affirmation::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'affirmation_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->delete("/affirmations/{$affirmation->id}");
@@ -133,7 +139,7 @@ class AffirmationTest extends TestCase
     public function test_user_cannot_delete_system_affirmation(): void
     {
         $affirmation = Affirmation::factory()->system()->create([
-            'category_id' => $this->category->id,
+            'affirmation_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->delete("/affirmations/{$affirmation->id}");
@@ -145,7 +151,7 @@ class AffirmationTest extends TestCase
     {
         $category2 = AffirmationCategory::factory()->create(['name' => 'Health']);
         Affirmation::factory()->create([
-            'category_id' => $category2->id,
+            'affirmation_category_id' => $category2->id,
             'is_system' => true,
         ]);
 

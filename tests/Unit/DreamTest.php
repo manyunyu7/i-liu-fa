@@ -29,7 +29,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'manifested_at' => null,
             'status' => 'active',
         ]);
@@ -44,7 +44,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'xp_reward' => 200,
         ]);
 
@@ -59,7 +59,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $dream->journalEntries());
@@ -69,7 +69,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $this->assertInstanceOf(User::class, $dream->user);
@@ -80,7 +80,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $this->assertInstanceOf(DreamCategory::class, $dream->category);

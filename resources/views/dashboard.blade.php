@@ -154,26 +154,80 @@
         </x-card>
     @endif
 
-    <!-- Progress Overview -->
+    <!-- Progress Overview with Beads -->
     <x-card class="mt-6">
-        <h2 class="text-xl font-bold text-duo-gray-500 mb-4">Your Progress</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="text-center">
-                <div class="text-4xl font-extrabold text-duo-green mb-1">{{ $stats['bucket_list_completed'] }}</div>
-                <div class="text-sm font-bold text-duo-gray-300">Bucket List Completed</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-extrabold text-duo-purple mb-1">{{ $stats['dreams_manifested'] }}</div>
-                <div class="text-sm font-bold text-duo-gray-300">Dreams Manifested</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-extrabold text-duo-blue mb-1">{{ $stats['tasks_completed_today'] }}</div>
-                <div class="text-sm font-bold text-duo-gray-300">Tasks Today</div>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl font-extrabold text-duo-orange mb-1">{{ $stats['affirmations_today'] }}</div>
-                <div class="text-sm font-bold text-duo-gray-300">Affirmations Today</div>
-            </div>
+        <h2 class="text-xl font-bold text-duo-gray-500 mb-6">Your Progress</h2>
+
+        {{-- Circular Progress Beads --}}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <x-beads-circle
+                :progress="$stats['bucket_list_completed']"
+                :total="max(1, $stats['bucket_list_total'] ?? 10)"
+                size="md"
+                color="green"
+                label="Bucket List"
+                :sublabel="$stats['bucket_list_completed'] . ' completed'"
+            />
+            <x-beads-circle
+                :progress="$stats['dreams_manifested']"
+                :total="max(1, $stats['dreams_total'] ?? 5)"
+                size="md"
+                color="purple"
+                label="Dreams"
+                :sublabel="$stats['dreams_manifested'] . ' manifested'"
+            />
+            <x-beads-circle
+                :progress="$stats['tasks_completed_today']"
+                :total="max(1, $stats['tasks_total_today'] ?? 5)"
+                size="md"
+                color="blue"
+                label="Today's Tasks"
+                :sublabel="$stats['tasks_completed_today'] . ' done'"
+            />
+            <x-beads-circle
+                :progress="min($stats['affirmations_today'], 10)"
+                :total="10"
+                size="md"
+                color="orange"
+                label="Affirmations"
+                :sublabel="$stats['affirmations_today'] . ' practiced'"
+            />
         </div>
+
+        {{-- Level Progress Beads --}}
+        <div class="border-t border-duo-gray-100 pt-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-duo-gray-400">Level {{ $stats['level'] }} Progress</span>
+                <span class="text-sm font-bold text-duo-green">{{ auth()->user()->xp_to_next_level }} XP to next level</span>
+            </div>
+            <x-beads-progress
+                :total="10"
+                :completed="(int) ceil(auth()->user()->level_progress / 10)"
+                size="lg"
+                color="yellow"
+            />
+        </div>
+    </x-card>
+
+    {{-- Weekly Journey Progress --}}
+    <x-card class="mt-6">
+        <h2 class="text-xl font-bold text-duo-gray-500 mb-4">This Week's Journey</h2>
+        <x-beads-progress
+            :total="7"
+            :completed="$stats['streak'] > 7 ? 7 : $stats['streak']"
+            size="xl"
+            color="green"
+            :showLabels="true"
+            :labels="['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']"
+        />
+        <p class="text-center text-sm text-duo-gray-300 mt-4">
+            @if($stats['streak'] >= 7)
+                You're on fire! Perfect week!
+            @elseif($stats['streak'] > 0)
+                Keep going! {{ 7 - $stats['streak'] }} more days for a perfect week!
+            @else
+                Start your streak today!
+            @endif
+        </p>
     </x-card>
 </x-app-layout>

@@ -52,7 +52,7 @@ class BucketListTest extends TestCase
     {
         $response = $this->actingAs($this->user)->post('/bucket-list', [
             'title' => 'Visit Japan',
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'description' => 'Experience Japanese culture',
             'priority' => 'high',
         ]);
@@ -68,7 +68,7 @@ class BucketListTest extends TestCase
     {
         $response = $this->actingAs($this->user)->post('/bucket-list', [
             'title' => '',
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response->assertSessionHasErrors('title');
@@ -78,7 +78,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->get("/bucket-list/{$item->id}");
@@ -91,12 +91,12 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->put("/bucket-list/{$item->id}", [
             'title' => 'Updated Title',
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'priority' => 'medium',
         ]);
 
@@ -111,7 +111,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->delete("/bucket-list/{$item->id}");
@@ -124,7 +124,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'completed_at' => null,
             'xp_reward' => 100,
         ]);
@@ -139,7 +139,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->post("/bucket-list/{$item->id}/milestones", [
@@ -157,7 +157,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $milestone = BucketListMilestone::create([
@@ -177,7 +177,7 @@ class BucketListTest extends TestCase
         $otherUser = User::factory()->create();
         $item = BucketListItem::factory()->create([
             'user_id' => $otherUser->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->get("/bucket-list/{$item->id}");
@@ -189,7 +189,7 @@ class BucketListTest extends TestCase
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'bucket_list_category_id' => $this->category->id,
             'progress' => 0,
         ]);
 

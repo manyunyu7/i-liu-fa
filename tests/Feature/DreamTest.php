@@ -51,7 +51,7 @@ class DreamTest extends TestCase
     {
         $response = $this->actingAs($this->user)->post('/dreams', [
             'title' => 'Start my own business',
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'description' => 'Build a successful company',
             'priority' => 'high',
         ]);
@@ -67,7 +67,7 @@ class DreamTest extends TestCase
     {
         $response = $this->actingAs($this->user)->post('/dreams', [
             'title' => '',
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response->assertSessionHasErrors('title');
@@ -77,7 +77,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->get("/dreams/{$dream->id}");
@@ -90,12 +90,12 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->put("/dreams/{$dream->id}", [
             'title' => 'Updated Dream Title',
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'priority' => 'medium',
         ]);
 
@@ -110,7 +110,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->delete("/dreams/{$dream->id}");
@@ -123,7 +123,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'manifested_at' => null,
             'status' => 'active',
             'xp_reward' => 200,
@@ -140,7 +140,7 @@ class DreamTest extends TestCase
     {
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->post("/dreams/{$dream->id}/journal", [
@@ -160,7 +160,7 @@ class DreamTest extends TestCase
         $otherUser = User::factory()->create();
         $dream = Dream::factory()->create([
             'user_id' => $otherUser->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
         ]);
 
         $response = $this->actingAs($this->user)->get("/dreams/{$dream->id}");
@@ -172,14 +172,14 @@ class DreamTest extends TestCase
     {
         Dream::factory()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
-            'status' => 'active',
+            'dream_category_id' => $this->category->id,
+            'status' => 'dreaming',
             'title' => 'Active Dream',
         ]);
 
         Dream::factory()->manifested()->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->category->id,
+            'dream_category_id' => $this->category->id,
             'title' => 'Manifested Dream',
         ]);
 

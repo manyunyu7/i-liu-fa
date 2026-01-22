@@ -20,13 +20,19 @@ class DashboardController extends Controller
                 ->count(),
             'tasks_completed_today' => $user->plannerTasks()
                 ->whereDate('completed_at', today())
+                ->where('is_completed', true)
+                ->count(),
+            'tasks_total_today' => $user->plannerTasks()
+                ->whereDate('task_date', today())
                 ->count(),
             'bucket_list_completed' => $user->bucketListItems()
-                ->where('status', 'completed')
+                ->whereNotNull('completed_at')
                 ->count(),
+            'bucket_list_total' => $user->bucketListItems()->count(),
             'dreams_manifested' => $user->dreams()
                 ->where('status', 'manifested')
                 ->count(),
+            'dreams_total' => $user->dreams()->count(),
         ];
 
         $todayTasks = $user->plannerTasks()

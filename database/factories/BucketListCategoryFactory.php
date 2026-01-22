@@ -13,7 +13,6 @@ class BucketListCategoryFactory extends Factory
             'user_id' => null,
             'name' => fake()->words(2, true),
             'slug' => fake()->unique()->slug(2),
-            'description' => fake()->sentence(),
             'icon' => fake()->randomElement(['✈️', '🎓', '💪', '🎯', '🏠', '💰']),
             'color' => fake()->hexColor(),
             'is_system' => false,

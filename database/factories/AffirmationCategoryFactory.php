@@ -14,15 +14,12 @@ class AffirmationCategoryFactory extends Factory
             'description' => fake()->sentence(),
             'icon' => fake()->randomElement(['💫', '💪', '❤️', '🌟', '✨', '🎯']),
             'color' => fake()->hexColor(),
-            'is_system' => false,
             'sort_order' => fake()->numberBetween(1, 100),
         ];
     }
 
     public function system(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'is_system' => true,
-        ]);
+        return $this;
     }
 }

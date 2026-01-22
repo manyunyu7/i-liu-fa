@@ -12,13 +12,11 @@ class AffirmationFactory extends Factory
     {
         return [
             'user_id' => null,
-            'category_id' => AffirmationCategory::factory(),
-            'text' => fake()->sentence(),
+            'affirmation_category_id' => AffirmationCategory::factory(),
+            'content' => fake()->sentence(),
             'is_favorite' => false,
             'is_active' => true,
             'is_system' => false,
-            'usage_count' => 0,
-            'xp_value' => fake()->randomElement([5, 10, 15]),
         ];
     }
 
