@@ -58,25 +58,25 @@ class AffirmationTest extends TestCase
     public function test_user_can_create_affirmation(): void
     {
         $response = $this->actingAs($this->user)->post('/affirmations', [
-            'category_id' => $this->category->id,
-            'text' => 'I am confident and capable',
+            'affirmation_category_id' => $this->category->id,
+            'content' => 'I am confident and capable',
         ]);
 
         $response->assertRedirect('/affirmations');
         $this->assertDatabaseHas('affirmations', [
             'user_id' => $this->user->id,
-            'text' => 'I am confident and capable',
+            'content' => 'I am confident and capable',
         ]);
     }
 
-    public function test_affirmation_requires_text(): void
+    public function test_affirmation_requires_content(): void
     {
         $response = $this->actingAs($this->user)->post('/affirmations', [
-            'category_id' => $this->category->id,
-            'text' => '',
+            'affirmation_category_id' => $this->category->id,
+            'content' => '',
         ]);
 
-        $response->assertSessionHasErrors('text');
+        $response->assertSessionHasErrors('content');
     }
 
     public function test_user_can_toggle_favorite_affirmation(): void
@@ -100,26 +100,26 @@ class AffirmationTest extends TestCase
             'is_system' => true,
         ]);
 
-        $response = $this->actingAs($this->user)->get('/affirmations/practice');
+        $response = $this->actingAs($this->user)->get("/affirmations/practice/{$this->category->id}");
 
         $response->assertStatus(200);
     }
 
-    public function test_user_can_complete_affirmation_session(): void
+    public function test_user_can_complete_affirmation(): void
     {
         $affirmation = Affirmation::factory()->create([
             'affirmation_category_id' => $this->category->id,
             'is_system' => true,
         ]);
 
-        $response = $this->actingAs($this->user)->post('/affirmations/complete-session', [
-            'affirmation_ids' => [$affirmation->id],
-            'repeat_counts' => [$affirmation->id => 3],
+        $response = $this->actingAs($this->user)->post("/affirmations/{$affirmation->id}/complete", [
+            'duration' => 30,
         ]);
 
-        $response->assertRedirect();
+        $response->assertJson(['success' => true]);
         $this->assertDatabaseHas('affirmation_sessions', [
             'user_id' => $this->user->id,
+            'affirmation_id' => $affirmation->id,
         ]);
     }
 

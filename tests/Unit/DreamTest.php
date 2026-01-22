@@ -30,13 +30,13 @@ class DreamTest extends TestCase
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
             'dream_category_id' => $this->category->id,
-            'manifested_at' => null,
-            'status' => 'active',
+            'manifestation_date' => null,
+            'status' => 'dreaming',
         ]);
 
         $dream->manifest();
 
-        $this->assertNotNull($dream->fresh()->manifested_at);
+        $this->assertNotNull($dream->fresh()->manifestation_date);
         $this->assertEquals('manifested', $dream->fresh()->status);
     }
 

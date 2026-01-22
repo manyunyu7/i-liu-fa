@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{bucketList}/edit', [BucketListController::class, 'edit'])->name('edit');
         Route::put('/{bucketList}', [BucketListController::class, 'update'])->name('update');
         Route::delete('/{bucketList}', [BucketListController::class, 'destroy'])->name('destroy');
+        Route::post('/{bucketList}/complete', [BucketListController::class, 'complete'])->name('complete');
         Route::post('/{bucketList}/milestones', [BucketListController::class, 'addMilestone'])->name('milestones.store');
         Route::post('/milestones/{milestone}/toggle', [BucketListController::class, 'toggleMilestone'])->name('milestones.toggle');
     });

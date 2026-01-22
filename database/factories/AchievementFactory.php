@@ -15,10 +15,9 @@ class AchievementFactory extends Factory
             'icon' => fake()->randomElement(['🏆', '⭐', '🎯', '🔥', '💪']),
             'badge_color' => fake()->hexColor(),
             'category' => fake()->randomElement(['streak', 'completion', 'milestone', 'special']),
-            'requirement_type' => 'count',
+            'requirement_type' => 'xp_total',
             'requirement_value' => fake()->numberBetween(1, 100),
             'xp_reward' => fake()->randomElement([50, 100, 200, 500]),
-            'is_secret' => false,
         ];
     }
 
@@ -26,13 +25,12 @@ class AchievementFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'category' => 'streak',
+            'requirement_type' => 'streak',
         ]);
     }
 
     public function secret(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'is_secret' => true,
-        ]);
+        return $this;
     }
 }

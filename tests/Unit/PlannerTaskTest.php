@@ -75,16 +75,16 @@ class PlannerTaskTest extends TestCase
     {
         PlannerTask::factory()->create([
             'user_id' => $this->user->id,
-            'task_date' => now()->toDateString(),
+            'task_date' => today(),
         ]);
 
         PlannerTask::factory()->create([
             'user_id' => $this->user->id,
-            'task_date' => now()->addDay()->toDateString(),
+            'task_date' => today()->addDay(),
         ]);
 
-        $todayTasks = PlannerTask::where('task_date', now()->toDateString())->count();
-        $tomorrowTasks = PlannerTask::where('task_date', now()->addDay()->toDateString())->count();
+        $todayTasks = PlannerTask::whereDate('task_date', today())->count();
+        $tomorrowTasks = PlannerTask::whereDate('task_date', today()->addDay())->count();
 
         $this->assertEquals(1, $todayTasks);
         $this->assertEquals(1, $tomorrowTasks);

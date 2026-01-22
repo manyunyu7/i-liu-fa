@@ -25,8 +25,8 @@ class AchievementController extends Controller
 
             // Calculate progress
             $achievement->progress = match ($achievement->requirement_type) {
-                'streak_days' => min(100, ($user->longest_streak / $achievement->requirement_value) * 100),
-                'total_xp' => min(100, ($user->total_xp / $achievement->requirement_value) * 100),
+                'streak_days', 'streak' => min(100, ($user->current_streak / $achievement->requirement_value) * 100),
+                'total_xp', 'xp_total' => min(100, ($user->total_xp / $achievement->requirement_value) * 100),
                 'level' => min(100, ($user->level / $achievement->requirement_value) * 100),
                 'affirmations_completed' => min(100, ($user->affirmationSessions()->count() / $achievement->requirement_value) * 100),
                 'bucket_list_completed' => min(100, ($user->bucketListItems()->completed()->count() / $achievement->requirement_value) * 100),

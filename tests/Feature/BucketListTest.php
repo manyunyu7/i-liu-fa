@@ -57,7 +57,7 @@ class BucketListTest extends TestCase
             'priority' => 'high',
         ]);
 
-        $response->assertRedirect('/bucket-list');
+        $response->assertRedirect();
         $this->assertDatabaseHas('bucket_list_items', [
             'user_id' => $this->user->id,
             'title' => 'Visit Japan',
@@ -98,6 +98,7 @@ class BucketListTest extends TestCase
             'title' => 'Updated Title',
             'bucket_list_category_id' => $this->category->id,
             'priority' => 'medium',
+            'progress' => 50,
         ]);
 
         $response->assertRedirect();

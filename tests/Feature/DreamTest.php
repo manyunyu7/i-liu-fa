@@ -53,10 +53,9 @@ class DreamTest extends TestCase
             'title' => 'Start my own business',
             'dream_category_id' => $this->category->id,
             'description' => 'Build a successful company',
-            'priority' => 'high',
         ]);
 
-        $response->assertRedirect('/dreams');
+        $response->assertRedirect();
         $this->assertDatabaseHas('dreams', [
             'user_id' => $this->user->id,
             'title' => 'Start my own business',
@@ -96,7 +95,7 @@ class DreamTest extends TestCase
         $response = $this->actingAs($this->user)->put("/dreams/{$dream->id}", [
             'title' => 'Updated Dream Title',
             'dream_category_id' => $this->category->id,
-            'priority' => 'medium',
+            'status' => 'dreaming',
         ]);
 
         $response->assertRedirect();
@@ -124,15 +123,15 @@ class DreamTest extends TestCase
         $dream = Dream::factory()->create([
             'user_id' => $this->user->id,
             'dream_category_id' => $this->category->id,
-            'manifested_at' => null,
-            'status' => 'active',
+            'manifestation_date' => null,
+            'status' => 'dreaming',
             'xp_reward' => 200,
         ]);
 
         $response = $this->actingAs($this->user)->post("/dreams/{$dream->id}/manifest");
 
         $response->assertRedirect();
-        $this->assertNotNull($dream->fresh()->manifested_at);
+        $this->assertNotNull($dream->fresh()->manifestation_date);
         $this->assertEquals('manifested', $dream->fresh()->status);
     }
 

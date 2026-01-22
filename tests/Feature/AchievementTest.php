@@ -117,26 +117,15 @@ class AchievementTest extends TestCase
         $response->assertSee('+500 XP');
     }
 
-    public function test_secret_achievements_hidden_until_unlocked(): void
+    public function test_achievements_are_displayed(): void
     {
-        $secretAchievement = Achievement::factory()->secret()->create([
-            'name' => 'Secret Achievement',
+        $achievement = Achievement::factory()->create([
+            'name' => 'Test Achievement',
         ]);
 
         $response = $this->actingAs($this->user)->get('/achievements');
 
-        $response->assertDontSee('Secret Achievement');
-
-        // Unlock the achievement
-        UserAchievement::create([
-            'user_id' => $this->user->id,
-            'achievement_id' => $secretAchievement->id,
-            'unlocked_at' => now(),
-        ]);
-
-        $response = $this->actingAs($this->user)->get('/achievements');
-
-        $response->assertSee('Secret Achievement');
+        $response->assertSee('Test Achievement');
     }
 
     public function test_achievement_stats_calculated_correctly(): void

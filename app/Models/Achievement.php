@@ -39,8 +39,8 @@ class Achievement extends Model
         }
 
         $unlocked = match ($this->requirement_type) {
-            'streak_days' => $user->longest_streak >= $this->requirement_value,
-            'total_xp' => $user->total_xp >= $this->requirement_value,
+            'streak_days', 'streak' => $user->current_streak >= $this->requirement_value,
+            'total_xp', 'xp_total' => $user->total_xp >= $this->requirement_value,
             'level' => $user->level >= $this->requirement_value,
             'affirmations_completed' => $user->affirmationSessions()->count() >= $this->requirement_value,
             'bucket_list_completed' => $user->bucketListItems()->completed()->count() >= $this->requirement_value,

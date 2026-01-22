@@ -156,6 +156,19 @@ class BucketListController extends Controller
             ->with('success', 'Bucket list item deleted!');
     }
 
+    public function complete(BucketListItem $bucketList)
+    {
+        if ($bucketList->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $bucketList->markAsCompleted();
+
+        return redirect()->route('bucket-list.show', $bucketList)
+            ->with('success', 'Congratulations! You completed this goal!')
+            ->with('xp_earned', $bucketList->xp_reward);
+    }
+
     public function toggleMilestone(BucketListMilestone $milestone)
     {
         $item = $milestone->item;

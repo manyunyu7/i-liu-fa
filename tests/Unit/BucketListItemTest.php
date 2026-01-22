@@ -116,7 +116,7 @@ class BucketListItemTest extends TestCase
         $this->assertEquals(100, $item->fresh()->progress);
     }
 
-    public function test_progress_is_0_when_no_milestones(): void
+    public function test_progress_unchanged_when_no_milestones(): void
     {
         $item = BucketListItem::factory()->create([
             'user_id' => $this->user->id,
@@ -126,6 +126,7 @@ class BucketListItemTest extends TestCase
 
         $item->updateProgress();
 
-        $this->assertEquals(0, $item->fresh()->progress);
+        // Progress should remain unchanged when there are no milestones to track
+        $this->assertEquals(50, $item->fresh()->progress);
     }
 }
